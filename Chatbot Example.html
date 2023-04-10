@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <style>
+    .chatbox {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 999;
+      background-color: #fff;
+      border-radius: 0.25rem;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      width: 300px;
+      height: 400px;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+    
+    .chat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #222;
+      color: #fff;
+      padding: 1rem;
+    }
+    
+    .chat-header h3 {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+    
+    .close-button {
+      background-color: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    .chat-body {
+      padding: 1rem;
+      height: calc(100% - 90px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    
+    .chat-messages {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow-y: scroll;
+    }
+    
+    .chat-messages li {
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      border-radius: 0.25rem;
+    }
+    
+    .bot-message {
+      background-color: #e1ffc7;
+    }
+    
+    .user-message {
+      background-color: #f6f6f6;
+    }
+    
+    .chat-input {
+      display: flex;
+      align-items: center;
+      margin-top: 1rem;
+    }
+    
+    .chat-input input {
+      flex-grow: 1;
+      border: none;
+      border-radius: 0.25rem;
+      padding: 0.5rem;
+      margin-right: 0.5rem;
+    }
+    
+    .send-button {
+      background-color: #007bff;
+      border: none;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+    <div class="chatbox">
+        <div class="chat-header">
+          <h3>Chat with us</h3>
+          <button class="close-button">X</button>
+        </div>
+        <div class="chat-body">
+          <ul class="chat-messages">
+            <li class="bot-message">Hi there! How can I assist you today?</li>
+          </ul>
+          <div class="chat-input">
+            <input type="text" placeholder="Type your message...">
+            <button class="send-button">Send</button>
+          </div>
+        </div>
+      </div> 
+      <script>
+        // Define a variable to hold the chat history
+var chatHistory = [];
+
+// Define a function to generate a response from the chatbot
+function generateResponse(userInput) {
+  // Here's a simple example response
+  return "Thanks for your message!";
+}
+
+// Define a function to add a message to the chat history and display it
+function addMessageToChatLog(message, sender) {
+  // Add the message to the chat history
+  chatHistory.push({ message: message, sender: sender });
+
+  // Get the chat log element and create a new message element
+  var chatLog = document.getElementById("chat-log");
+  var messageElement = document.createElement("div");
+
+  // Set the message class based on the sender
+  messageElement.className = "message";
+  if (sender === "user") {
+    messageElement.classList.add("user-message");
+  } else {
+    messageElement.classList.add("chatbot-message");
+  }
+
+  // Set the message text
+  var messageText = document.createTextNode(message);
+  messageElement.appendChild(messageText);
+
+  // Add the message element to the chat log
+  chatLog.appendChild(messageElement);
+
+  // Scroll the chat log to the bottom
+  chatLog.scrollTop = chatLog.scrollHeight;
+}
+
+// Define a function to handle user input and send a message to the chatbot
+function handleUserInput() {
+  // Get the user input
+  var userInput = document.getElementById("user-input").value;
+
+  // Clear the input field
+  document.getElementById("user-input").value = "";
+
+  // Add the user's message to the chat log
+  addMessageToChatLog(userInput, "user");
+
+  // Generate a response from the chatbot
+  var chatbotResponse = generateResponse(userInput);
+
+  // Add the chatbot's response to the chat log
+  addMessageToChatLog(chatbotResponse, "chatbot");
+}
+
+// Attach an event listener to the send button
+var sendButton = document.getElementById("send-button");
+sendButton.addEventListener("click", handleUserInput);
+
+// Attach an event listener to the input field for enter key
+var userInputField = document.getElementById("user-input");
+userInputField.addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    sendButton.click();
+  }
+});
+      </script>     
+</body>
+</html>
