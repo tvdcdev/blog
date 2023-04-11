@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot</title>
+    <title>Chatbot Example | The Virtual Design Company</title>
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
     .chatbox {
       position: fixed;
       bottom: 30px;
       right: 30px;
       z-index: 999;
       background-color: #fff;
-      border-radius: 0.25rem;
+      border-radius: 0.50rem;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
       width: 300px;
       height: 400px;
@@ -24,9 +26,12 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: #222;
       color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
       padding: 1rem;
+      background: rgb(13,13,13);
+      background: linear-gradient(8deg, rgba(13,13,13,1) 0%, rgba(238,54,37,1) 66%, rgba(242,196,24,1) 100%);
     }
     
     .chat-header h3 {
@@ -41,6 +46,12 @@
       font-size: 1.5rem;
       cursor: pointer;
     }
+
+    .close-button:after {
+      display: inline-block;
+      content: "\00d7";
+      font-size: 1.75rem;
+    } 
     
     .chat-body {
       padding: 1rem;
@@ -59,13 +70,16 @@
     }
     
     .chat-messages li {
-      padding: 0.5rem;
+      padding: 1rem;
       margin-bottom: 0.5rem;
-      border-radius: 0.25rem;
+      border-radius: 0.50rem;
     }
     
     .bot-message {
       background-color: #e1ffc7;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+      margin-right: 10px;
     }
     
     .user-message {
@@ -81,105 +95,93 @@
     .chat-input input {
       flex-grow: 1;
       border: none;
-      border-radius: 0.25rem;
-      padding: 0.5rem;
+      border-radius: 0.50rem;
+      padding: 0.75rem;
       margin-right: 0.5rem;
     }
     
     .send-button {
-      background-color: #007bff;
+      background-color: #EE3625;
       border: none;
       color: #fff;
       padding: 0.5rem 1rem;
-      border-radius: 0.25rem;
+      border-radius: 0.50rem;
       cursor: pointer;
+      font-family: 'Poppins', sans-serif;
     }
     </style>
 </head>
 <body>
-    <div class="chatbox">
-        <div class="chat-header">
-          <h3>Chat with us</h3>
-          <button class="close-button">X</button>
-        </div>
-        <div class="chat-body">
-          <ul class="chat-messages">
-            <li class="bot-message">Hi there! How can I assist you today?</li>
-          </ul>
-          <div class="chat-input">
-            <input type="text" placeholder="Type your message...">
-            <button class="send-button">Send</button>
-          </div>
-        </div>
-      </div> 
-      <script>
-        // Define a variable to hold the chat history
-var chatHistory = [];
-
-// Define a function to generate a response from the chatbot
-function generateResponse(userInput) {
-  // Here's a simple example response
-  return "Thanks for your message!";
-}
-
-// Define a function to add a message to the chat history and display it
-function addMessageToChatLog(message, sender) {
-  // Add the message to the chat history
-  chatHistory.push({ message: message, sender: sender });
-
-  // Get the chat log element and create a new message element
-  var chatLog = document.getElementById("chat-log");
-  var messageElement = document.createElement("div");
-
-  // Set the message class based on the sender
-  messageElement.className = "message";
-  if (sender === "user") {
-    messageElement.classList.add("user-message");
-  } else {
-    messageElement.classList.add("chatbot-message");
+  <div class="chatbox">
+    <div class="chat-header">
+      <h3>Chat with us</h3>
+      <button class="close-button"></button>
+    </div>
+    <div class="chat-body">
+      <ul class="chat-messages">
+        <li class="bot-message">Hi there! How can I assist you today?</li>
+      </ul>
+      <div class="chat-input">
+        <input type="text" placeholder="Type your message..." style="background-color: rgb(237, 237, 237);">
+        <button class="send-button">Send</button>
+      </div>
+    </div>
+  </div> 
+  <script>
+  // Define a variable to hold the chat history
+  var chatHistory = [];
+  // Define a function to generate a response from the chatbot
+  function generateResponse(userInput) {
+    // Here's a simple example response
+    return "Thanks for your message!";
   }
-
-  // Set the message text
-  var messageText = document.createTextNode(message);
-  messageElement.appendChild(messageText);
-
-  // Add the message element to the chat log
-  chatLog.appendChild(messageElement);
-
-  // Scroll the chat log to the bottom
-  chatLog.scrollTop = chatLog.scrollHeight;
-}
-
-// Define a function to handle user input and send a message to the chatbot
-function handleUserInput() {
-  // Get the user input
-  var userInput = document.getElementById("user-input").value;
-
-  // Clear the input field
-  document.getElementById("user-input").value = "";
-
-  // Add the user's message to the chat log
-  addMessageToChatLog(userInput, "user");
-
-  // Generate a response from the chatbot
-  var chatbotResponse = generateResponse(userInput);
-
-  // Add the chatbot's response to the chat log
-  addMessageToChatLog(chatbotResponse, "chatbot");
-}
-
-// Attach an event listener to the send button
-var sendButton = document.getElementById("send-button");
-sendButton.addEventListener("click", handleUserInput);
-
-// Attach an event listener to the input field for enter key
-var userInputField = document.getElementById("user-input");
-userInputField.addEventListener("keyup", function(event) {
-  if (event.keyCode === 13) {
-    event.preventDefault();
-    sendButton.click();
+  // Define a function to add a message to the chat history and display it
+  function addMessageToChatLog(message, sender) {
+    // Add the message to the chat history
+    chatHistory.push({ message: message, sender: sender });
+    // Get the chat log element and create a new message element
+    var chatLog = document.getElementById("chat-log");
+    var messageElement = document.createElement("div");
+    // Set the message class based on the sender
+    messageElement.className = "message";
+    if (sender === "user") {
+      messageElement.classList.add("user-message");
+    }
+    else {
+      messageElement.classList.add("chatbot-message");
+    }
+    // Set the message text
+    var messageText = document.createTextNode(message);
+    messageElement.appendChild(messageText);
+    // Add the message element to the chat log
+    chatLog.appendChild(messageElement);
+    // Scroll the chat log to the bottom
+    chatLog.scrollTop = chatLog.scrollHeight;
   }
-});
-      </script>     
-</body>
-</html>
+  // Define a function to handle user input and send a message to the chatbot
+  function handleUserInput() {
+    // Get the user input
+    var userInput = document.getElementById("user-input").value;
+    // Clear the input field
+    document.getElementById("user-input").value = "";
+    // Add the user's message to the chat log
+    addMessageToChatLog(userInput, "user");
+    // Generate a response from the chatbot
+    var chatbotResponse = generateResponse(userInput);
+    // Add the chatbot's response to the chat log
+    addMessageToChatLog(chatbotResponse, "chatbot");
+  }
+  // Attach an event listener to the send button
+  var sendButton = document.getElementById("send-button");
+  sendButton.addEventListener("click", handleUserInput);
+  // Attach an event listener to the input field for enter key
+  var userInputField = document.getElementById("user-input");
+  userInputField.addEventListener("keyup", function(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      sendButton.click();
+    }
+  });
+  </script>
+  </body>
+  </html>
